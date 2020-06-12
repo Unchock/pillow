@@ -1,0 +1,53 @@
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
+
+im = Image.open('C:\\Users\\hwq\\Pictures\\pillow.jpg')
+# 图片信息获取
+print(im.format, im.size, im.mode)
+im.show()
+# 翻转图片
+FlipImg = Image.new('RGB', (im.width * 2, im.height))
+imFlip = im.rotate(90)
+FlipImg.paste(im, (0, 0))
+FlipImg.paste(imFlip, (im.width, 0))
+FlipImg.save('C:\\Users\\hwq\\Desktop\\pillowimg\\Flip.jpg')
+
+# 裁剪图片
+CutImg = Image.new('RGB', (im.width + 200, im.height), 'white')
+box = (500, 0, 1000, 800)
+imCut = im.crop(box)
+CutImg.paste(im, (0, 0))
+CutImg.paste(imCut, (im.width, 0))
+CutImg.save('C:\\Users\\hwq\\Desktop\\pillowimg\\Cut.jpg')
+
+# 8—bit
+EBitImg = Image.new('RGB', (im.width * 2, im.height))
+imEbit = im.convert('L')
+EBitImg.paste(im, (0, 0))
+EBitImg.paste(imEbit, (im.width, 0))
+EBitImg.save('C:\\Users\\hwq\\Desktop\\pillowimg\\8-bit.jpg')
+
+# 图片缩放
+ResizeImg = Image.new('RGB', (im.width + im.width // 2, im.height), 'white')
+imResize = im.resize((im.width // 2, im.height // 2))
+ResizeImg.paste(im, (0, 0))
+ResizeImg.paste(imResize, (im.width, 0))
+ResizeImg.save('C:\\Users\\hwq\\Desktop\\pillowimg\\Resize.jpg')
+
+# 获取某点RGB值
+r, g, b = im.getpixel((500, 500))
+print('R={},G={},B={}'.format(r, g, b))
+
+# 图片模糊
+BlurImg = Image.new('RGB', (im.width * 2, im.height))
+imBlur = im.filter(ImageFilter.GaussianBlur)
+BlurImg.paste(im, (0, 0))
+BlurImg.paste(imBlur, (im.width, 0))
+BlurImg.save('C:\\Users\\hwq\\Desktop\\pillowimg\\Blur.jpg')
+
+# 图片上添加文字
+font = ImageFont.truetype('C:\\Windows\\Fonts\\STSONG.TTF', 100)
+draw = ImageDraw.Draw(im)
+draw.text((10, 10), '漂亮的小姐姐', fill='red', font=font)
+draw.text((510, 210), '就能心疼掉', fill='red', font=font)
+im.save('C:\\Users\\hwq\\Desktop\\pillowimg\\AddText.jpg')
+
